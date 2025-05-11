@@ -35,13 +35,16 @@ public class ToDo {
                         break;
                     case 3 :
                         System.out.print("Do you want to exit? (Y/N) : ");
-                        char answer = scan.nextLine().charAt(0);
-                        if(answer == 'Y' || answer == 'y'){
+                        char answer = Character.toLowerCase(scan.nextLine().charAt(0));
+                        if(answer == 'y'){
                             System.out.println("ToDo Auto Save all tasks...");
                             System.out.println("Exiting...");
                             taskController.saveAllTasks();
                             System.exit(0);
+                        }else{
+                            System.out.println("Cancelled...");
                         }
+                        break;
                     default :
                         System.out.println("Invalid choice! TRY AGAIN.");
                         break;
@@ -78,14 +81,17 @@ public class ToDo {
                         displayMainMenu(taskController);
                         break;
                     case 6 :
-                        System.out.println("Do you want to exit? (Y/N)");
-                        char answer = scan.nextLine().charAt(0);
-                        if(answer == 'Y' || answer == 'y'){
+                        System.out.print("Do you want to exit? (Y/N) : ");
+                        char answer = Character.toLowerCase(scan.nextLine().charAt(0));
+                        if(answer == 'y'){
                             System.out.println("ToDo Auto Save all tasks...");
                             System.out.println("Exiting...");
                             taskController.saveAllTasks();
                             System.exit(0);
+                        }else{
+                            System.out.println("Cancelled...");
                         }
+                        break;
                     default :
                         System.out.println("Invalid choice! TRY AGAIN.");
                         break;
@@ -121,14 +127,18 @@ public class ToDo {
                         displayMainMenu(taskController);
                         break;
                     case 6 :
-                        System.out.println("Do you want to exit? (Y/N)");
-                        char answer = scan.nextLine().charAt(0);
-                        if(answer == 'Y' || answer == 'y'){
+                        System.out.print("Do you want to exit? (Y/N) : ");
+                        char answer = Character.toLowerCase(scan.nextLine().charAt(0));
+                        if(answer == 'y'){
                             System.out.println("ToDo Auto Save all tasks...");
                             System.out.println("Exiting...");
                             taskController.saveAllTasks();
                             System.exit(0);
+                        }else{
+                            System.out.println("Cancelled...");
                         }
+                        break;
++
                     default :
                         System.out.println("Invalid choice! TRY AGAIN.");
                 }
