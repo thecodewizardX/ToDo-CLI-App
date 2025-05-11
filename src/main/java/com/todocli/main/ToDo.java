@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class ToDo {
 
-    public static void main(String[] args) {
+    public static void startApp(String userName) {
         TaskManager taskManager = new TaskManager();
-        TaskController taskController = new TaskController(taskManager);
+        TaskController taskController = new TaskController(taskManager,userName);
 
         UIManager.printBanner();   // Print the banner
         displayMainMenu(taskController);
@@ -27,13 +27,9 @@ public class ToDo {
                 int choice = scan.nextInt();
                 scan.nextLine();   // to prevent from buffer issues
                 switch(choice){
-                    case 1:
-                        displayTaskManagementMenu(taskController);
-                        break;
-                    case 2 :
-                        displayTaskStatusMenu(taskController);
-                        break;
-                    case 3 :
+                    case 1 -> displayTaskManagementMenu(taskController);
+                    case 2 -> displayTaskStatusMenu(taskController);
+                    case 3 -> {
                         System.out.print("Do you want to exit? (Y/N) : ");
                         char answer = Character.toLowerCase(scan.nextLine().charAt(0));
                         if(answer == 'y'){
@@ -44,10 +40,8 @@ public class ToDo {
                         }else{
                             System.out.println("Cancelled...");
                         }
-                        break;
-                    default :
-                        System.out.println("Invalid choice! TRY AGAIN.");
-                        break;
+                    }
+                    default -> System.out.println("Invalid choice! TRY AGAIN.");
                 }
             }else {
                 System.out.println("Enter valid number!.");
@@ -65,22 +59,12 @@ public class ToDo {
                 int choice = scan.nextInt();
                 scan.nextLine();  // To prevent from buffer issues
                 switch(choice){
-                    case 1:
-                        taskController.add();
-                        break;
-                    case 2 :
-                        taskController.remove();
-                        break;
-                    case 3 :
-                        taskController.editTask();
-                        break;
-                    case 4 :
-                        taskController.viewAllTasks();
-                        break;
-                    case 5 :
-                        displayMainMenu(taskController);
-                        break;
-                    case 6 :
+                    case 1 -> taskController.add();
+                    case 2 -> taskController.remove();
+                    case 3 -> taskController.editTask();
+                    case 4 -> taskController.viewAllTasks();
+                    case 5 -> displayMainMenu(taskController);
+                    case 6 -> {
                         System.out.print("Do you want to exit? (Y/N) : ");
                         char answer = Character.toLowerCase(scan.nextLine().charAt(0));
                         if(answer == 'y'){
@@ -91,10 +75,8 @@ public class ToDo {
                         }else{
                             System.out.println("Cancelled...");
                         }
-                        break;
-                    default :
-                        System.out.println("Invalid choice! TRY AGAIN.");
-                        break;
+                    }
+                    default -> System.out.println("Invalid choice! TRY AGAIN.");
                 }
             }else {
                 System.out.println("Enter valid number!.");
@@ -111,22 +93,12 @@ public class ToDo {
                 int choice = scan.nextInt();
                 scan.nextLine();   // to prevent from buffer issues
                 switch(choice){
-                    case 1:
-                        taskController.markAsCompleted();
-                        break;
-                    case 2 :
-                        taskController.markAsUnComplete();
-                        break;
-                    case 3 :
-                        taskController.viewCompletedTasks();
-                        break;
-                    case 4 :
-                        taskController.viewTasks();
-                        break;
-                    case 5 :
-                        displayMainMenu(taskController);
-                        break;
-                    case 6 :
+                    case 1 -> taskController.markAsCompleted();
+                    case 2 -> taskController.markAsUnComplete();
+                    case 3 -> taskController.viewCompletedTasks();
+                    case 4 -> taskController.viewTasks();
+                    case 5 -> displayMainMenu(taskController);
+                    case 6 -> {
                         System.out.print("Do you want to exit? (Y/N) : ");
                         char answer = Character.toLowerCase(scan.nextLine().charAt(0));
                         if(answer == 'y'){
@@ -138,9 +110,8 @@ public class ToDo {
                             System.out.println("Cancelled...");
                         }
                         break;
-+
-                    default :
-                        System.out.println("Invalid choice! TRY AGAIN.");
+                        }
+                    default -> System.out.println("Invalid choice! TRY AGAIN.");
                 }
             }else {
                 System.out.println("Enter valid number!.");

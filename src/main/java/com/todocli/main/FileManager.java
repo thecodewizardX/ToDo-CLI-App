@@ -6,10 +6,6 @@
 
 package com.todocli.main;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvValidationException;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,19 +15,30 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
+
 public class FileManager {
+
+    public FileManager(String username) {
+    }
     private final static Path  PENDING_TASKS_PATH = Paths.get(System.getProperty("user.home"), "todo_cli","pending_tasks.csv");
     private final static Path  COMPLETED_FILE_PATH = Paths.get(System.getProperty("user.home"), "todo_cli","completed_tasks.csv");
-
+    private final static Path  DATABASE_PATH = Paths.get(System.getProperty("user.home"), "database","users.csv");
     static{
         try {
             Files.createDirectories(PENDING_TASKS_PATH.getParent());
             Files.createDirectories(COMPLETED_FILE_PATH.getParent());
+            Files.createDirectories(DATABASE_PATH.getParent());
             if(!Files.exists(PENDING_TASKS_PATH)){
                 Files.createFile(PENDING_TASKS_PATH);
             }
             if(!Files.exists(COMPLETED_FILE_PATH)){
                 Files.createFile(COMPLETED_FILE_PATH);
+            }
+            if(!Files.exists(DATABASE_PATH)){
+                Files.createFile(DATABASE_PATH);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -89,5 +96,33 @@ public class FileManager {
             throw new RuntimeException(e);
         }
         return completedTasks;
+    }
+    public static boolean signIn(String username, String password){
+        try (CSVReader reader = new CSVReader(new FileReader(DATABASE_PATH.toFile()))) {
+            String[] user;
+            while((user = reader.readNext()) != null){
+                if(user[0].equals(username) && user[1].equals(password)){
+                    return true;
+                }
+            }
+            return false;
+        } catch (IOException | CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static boolean signUp(String username, String password,String phoneNumber){
+        if(signIn(username,password)){
+            return false;
+        }else{
+            try (CSVWriter writer = new CSVWriter(new FileWriter(DATABASE_PATH.toFile(),true))) {
+                writer.writeNext(new String[]{username,password,phoneNumber});
+                return true;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 }

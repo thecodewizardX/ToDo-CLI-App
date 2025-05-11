@@ -17,6 +17,16 @@ public class UIManager {
         System.out.println("::::::::::::::::::::::::::::::::::::::::::");
         System.out.println("\uD83D\uDCCC Plan it. \uD83D\uDCC5 Do it. \uD83C\uDFAF Achieve it.");
     }
+    public static void displayLoginMenu(){
+        System.out.println("""
+          =========================================
+          |           Login or SignUp             |
+          =========================================
+          |      1) Sign in                       |
+          |      2) Sign up                       |
+          |      3) Exit Application              |
+          =========================================""");
+    }
     // To display Main Menu
     public static void displayMainMenu(){
         System.out.println("""

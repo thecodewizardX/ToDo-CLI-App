@@ -21,15 +21,13 @@ Features :
  */
 
 package com.todocli.main;
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-public class TaskController {
+public final class TaskController {
     private final TaskManager taskManager;
     private final Scanner scan;
-
-    public TaskController(TaskManager taskManager) {
+    public TaskController(TaskManager taskManager,String userName) {
         this.taskManager = taskManager;
         scan = new Scanner(System.in);
         addAll();    //Add both pending & completed tasks from dataSets
@@ -76,7 +74,7 @@ public class TaskController {
             int option = scan.nextInt();
             scan.nextLine();
             switch(option){
-                case 1:
+                case 1 -> {
                     System.out.print("Enter the task name to remove : ");
                     String taskName = scan.nextLine().replaceAll("\\s","").toLowerCase();
                     for(Task task : taskManager.getTasks()){
@@ -93,8 +91,8 @@ public class TaskController {
                         }
                     }
                     System.out.println("Can't find task...");
-                    break;
-                case 2 :
+                }
+                case 2 -> {
                     System.out.print("Enter the task name to remove : ");
                     String completedTaskName = scan.nextLine().replaceAll("\\s","").toLowerCase();
                     for(Task task : taskManager.getCompletedTasks()){
@@ -107,8 +105,8 @@ public class TaskController {
                         System.out.println("Task not removed....");
                     }
                     System.out.println("Can't find task...");
-                    break;
-                case 3 :
+                }
+                case 3 -> {
                     System.out.println("Are you sure to remove the all pending tasks (Y/N) : ");
                     char choice = scan.nextLine().charAt(0);
                     if(choice == 'Y'||choice == 'y'){
@@ -117,8 +115,8 @@ public class TaskController {
                         return;
                     }
                     System.out.println("tasks not removed...");
-                    break;
-                case 4 :
+                }
+                case 4 -> {
                     System.out.println("Are you sure to remove the all completed tasks (Y/N) : ");
                     char choice2 = scan.nextLine().charAt(0);
                     if(choice2 == 'Y'||choice2 == 'y'){
@@ -127,9 +125,8 @@ public class TaskController {
                         return;
                     }
                     System.out.println("tasks not removed...");
-                    break;
-                default:
-                    System.out.println("Invalid input. Try again.");
+                }
+                default -> System.out.println("Invalid input. Try again.");
             }
         }else{
             System.out.println("Invalid input. Try again.");
@@ -143,73 +140,72 @@ public class TaskController {
         if(scan.hasNextInt()){
             int option = scan.nextInt();
             scan.nextLine();    // To prevent from buffer issues
-            if(option == 1){
-                System.out.print("Enter the task name to edit : ");
-                String prevTaskName = scan.nextLine().replaceAll("\\s","").toLowerCase();
-                for(Task task : taskManager.getTasks()){
-                    if(task != null && task.getName() != null && task.getName().replaceAll("\\s","").equalsIgnoreCase(prevTaskName)){
-                        System.out.print("Enter the name to update  : ");
-                        // to remove extra spaces at the end  $ means end of the string
-                        String newName = scan.nextLine().replaceAll("\\s+$","");
-                        System.out.print("Are you sure to edit this task? (Y/N) : ");
-                        char choice = scan.nextLine().charAt(0);
-                        if(choice == 'Y' || choice == 'y'){
-                            task.setName(newName);
-                            System.out.println("Task name updated...");
-                            return;
-                        }
-                        System.out.println("Task name not updated...");
-                    }
-                }
-                System.out.println("can't find task...");
-            } else if (option == 2) {
-                System.out.print("Enter the task name to edit : ");
-                String taskName = scan.nextLine().trim().toLowerCase();
-                Task taskToUpdate = null;
-                for(Task task : taskManager.getTasks()){
-                    if(task != null && task.getName() != null && task.getName().trim().equalsIgnoreCase(taskName)){
-                        taskToUpdate = task;
-                    }
-                    if(taskToUpdate != null){
-                        System.out.print("Enter the priority to update  : ");
-                        if(scan.hasNextInt()){
-                            int priority = scan.nextInt();
-                            scan.nextLine();   // to prevent Buffer issues
+            switch (option) {
+                case 1 -> {
+                    System.out.print("Enter the task name to edit : ");
+                    String prevTaskName = scan.nextLine().replaceAll("\\s","").toLowerCase();
+                    for(Task task : taskManager.getTasks()){
+                        if(task != null && task.getName() != null && task.getName().replaceAll("\\s","").equalsIgnoreCase(prevTaskName)){
+                            System.out.print("Enter the name to update  : ");
+                            // to remove extra spaces at the end  $ means end of the string
+                            String newName = scan.nextLine().replaceAll("\\s+$","");
                             System.out.print("Are you sure to edit this task? (Y/N) : ");
                             char choice = scan.nextLine().charAt(0);
                             if(choice == 'Y' || choice == 'y'){
-                                // Remove old task and add new because for maintain priority sorting.
-                                taskManager.remove(taskToUpdate);
-                                taskManager.add(new Task(taskToUpdate.getName(),taskToUpdate.getDescription(),priority));
-                                System.out.println("Task priority updated...");
+                                task.setName(newName);
+                                System.out.println("Task name updated...");
                                 return;
                             }
+                            System.out.println("Task name not updated...");
                         }
-                        System.out.println("Task priority not updated...");
-                    }
+                    }   System.out.println("can't find task...");
                 }
-                System.out.println("can't find task");
-            }else if(option == 3){
-                System.out.print("Enter the task name to edit : ");
-                String taskName = scan.nextLine().replaceAll("\\s","").toLowerCase();
-                for(Task task : taskManager.getTasks()){
-                    if(task != null && task.getName() != null && task.getName().replaceAll("\\s","").equalsIgnoreCase(taskName)){
-                        System.out.println("Enter the  description to update  : ");
-                        String description = scan.nextLine();
-                        System.out.print("Are you sure to edit this task? (Y/N) : ");
-                        char choice = scan.nextLine().charAt(0);
-                        if(choice == 'Y' || choice == 'y'){
-                            task.setDescription(description);
-                            System.out.println("Task description updated...");
-                            return;
-                        }
-                        System.out.println("Task description not updated...");
+                case 2 ->                     {
+                        System.out.print("Enter the task name to edit : ");
+                        String taskName = scan.nextLine().trim().toLowerCase();
+                        Task taskToUpdate = null;
+                        for(Task task : taskManager.getTasks()){
+                            if(task != null && task.getName() != null && task.getName().trim().equalsIgnoreCase(taskName)){
+                                taskToUpdate = task;
+                            }
+                            if(taskToUpdate != null){
+                                System.out.print("Enter the priority to update  : ");
+                                if(scan.hasNextInt()){
+                                    int priority = scan.nextInt();
+                                    scan.nextLine();   // to prevent Buffer issues
+                                    System.out.print("Are you sure to edit this task? (Y/N) : ");
+                                    char choice = scan.nextLine().charAt(0);
+                                    if(choice == 'Y' || choice == 'y'){
+                                        // Remove old task and add new because for maintain priority sorting.
+                                        taskManager.remove(taskToUpdate);
+                                        taskManager.add(new Task(taskToUpdate.getName(),taskToUpdate.getDescription(),priority));
+                                        System.out.println("Task priority updated...");
+                                        return;
+                                    }
+                                }
+                                System.out.println("Task priority not updated...");
+                            }
+                        }       System.out.println("can't find task");
                     }
-                }
-                System.out.println("can't find task");
-            }
-            else{
-                System.out.println("Wrong option!");
+                case 3 ->                     {
+                        System.out.print("Enter the task name to edit : ");
+                        String taskName = scan.nextLine().replaceAll("\\s","").toLowerCase();
+                        for(Task task : taskManager.getTasks()){
+                            if(task != null && task.getName() != null && task.getName().replaceAll("\\s","").equalsIgnoreCase(taskName)){
+                                System.out.println("Enter the  description to update  : ");
+                                String description = scan.nextLine();
+                                System.out.print("Are you sure to edit this task? (Y/N) : ");
+                                char choice = scan.nextLine().charAt(0);
+                                if(choice == 'Y' || choice == 'y'){
+                                    task.setDescription(description);
+                                    System.out.println("Task description updated...");
+                                    return;
+                                }
+                                System.out.println("Task description not updated...");
+                            }
+                        }       System.out.println("can't find task");
+                    }
+                default -> System.out.println("Wrong option!");
             }
         }else{
             System.out.println("Invalid input. Try again.");
